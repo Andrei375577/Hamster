@@ -1,113 +1,296 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Hamster Clicker</title>
-  <style>
-    body {
-      background: #1e1e1e;
-      color: #fff;
-      font-family: sans-serif;
-      text-align: center;
-      padding: 30px;
-    }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-    .counter {
-      font-size: 24px;
-      margin: 20px 0;
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 18px;
-      margin: 10px;
-      background: #ff9800;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #fff;
-    }
-    button:hover {
-      background: #ffa726;
-    }
-    .upgrade {
-      background: #333;
-      padding: 10px;
-      margin-top: 20px;
-      border-radius: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoMiner Pro - Симулятор майнинга криптовалют</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>🐹 Hamster Clicker</h1>
-  <div class="counter">Монет: <span id="coins">0</span></div>
-  <button onclick="earn()">Заработать 💸</button>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-coins"></i> CryptoMiner Pro</h1>
+            <div class="header-stats">
+                <div class="stat">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Баланс: $<span id="balance">0.00</span></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-bolt"></i>
+                    <span>Мощность: <span id="totalHashrate">0</span> H/s</span>
+                </div>
+            </div>
+        </header>
 
-  <div class="upgrade">
-    <p>Уровень апгрейда: <span id="level">1</span></p>
-    <p>Доход за клик: <span id="income">1</span></p>
-    <button onclick="upgrade()">Апгрейд (стоимость: <span id="cost">10</span>)</button>
-  </div>
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="mining">
+                <i class="fas fa-pickaxe"></i> Майнинг
+            </button>
+            <button class="tab-btn" data-tab="equipment">
+                <i class="fas fa-microchip"></i> Оборудование
+            </button>
+            <button class="tab-btn" data-tab="market">
+                <i class="fas fa-chart-line"></i> Рынок
+            </button>
+            <button class="tab-btn" data-tab="withdraw">
+                <i class="fas fa-money-bill-wave"></i> Вывод
+            </button>
+        </nav>
 
-  <script>
-    let coins = 0;
-    let level = 1;
-    let income = 1;
-    let upgradeCost = 10;
+        <main class="main-content">
+            <!-- Вкладка майнинга -->
+            <div id="mining" class="tab-content active">
+                <div class="mining-grid">
+                    <div class="crypto-card" data-crypto="bitcoin">
+                        <div class="crypto-header">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNGNzkzMUEiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" alt="Bitcoin">
+                            <div>
+                                <h3>Bitcoin (BTC)</h3>
+                                <p class="price">$<span class="crypto-price">45000</span></p>
+                            </div>
+                        </div>
+                        <div class="mining-stats">
+                            <p>Мощность: <span class="hashrate">0</span> H/s</p>
+                            <p>Доходность: $<span class="earnings">0.00</span>/час</p>
+                            <p>Намайнено: <span class="mined">0.00000000</span> BTC</p>
+                        </div>
+                        <button class="mine-btn" data-crypto="bitcoin">
+                            <i class="fas fa-play"></i> Начать майнинг
+                        </button>
+                    </div>
 
-    // Загрузка прогресса
-    function loadProgress() {
-      const saved = localStorage.getItem('hamsterClicker');
-      if (saved) {
-        const data = JSON.parse(saved);
-        coins = data.coins || 0;
-        level = data.level || 1;
-        income = data.income || 1;
-        upgradeCost = data.upgradeCost || 10;
-      }
-    }
+                    <div class="crypto-card" data-crypto="ethereum">
+                        <div class="crypto-header">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2MjdFRUEiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTIgMTBMMjAgMTJMMTIgMTZMMTIgMjJMNCAzTDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" alt="Ethereum">
+                            <div>
+                                <h3>Ethereum (ETH)</h3>
+                                <p class="price">$<span class="crypto-price">3200</span></p>
+                            </div>
+                        </div>
+                        <div class="mining-stats">
+                            <p>Мощность: <span class="hashrate">0</span> H/s</p>
+                            <p>Доходность: $<span class="earnings">0.00</span>/час</p>
+                            <p>Намайнено: <span class="mined">0.00000000</span> ETH</p>
+                        </div>
+                        <button class="mine-btn" data-crypto="ethereum">
+                            <i class="fas fa-play"></i> Начать майнинг
+                        </button>
+                    </div>
 
-    // Сохранение прогресса
-    function saveProgress() {
-      const data = {
-        coins,
-        level,
-        income,
-        upgradeCost
-      };
-      localStorage.setItem('hamsterClicker', JSON.stringify(data));
-    }
+                    <div class="crypto-card" data-crypto="dogecoin">
+                        <div class="crypto-header">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNDMkE2MzMiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDMTcuNTIgMiAyMiA2LjQ4IDIyIDEyUzE3LjUyIDIyIDEyIDIyIDIgMTcuNTIgMiAxMiA2LjQ4IDIgMTIgMloiIGZpbGw9IndoaXRlIi8+CjwvcGF0aD4KPC9zdmc+Cjwvc3ZnPg==" alt="Dogecoin">
+                            <div>
+                                <h3>Dogecoin (DOGE)</h3>
+                                <p class="price">$<span class="crypto-price">0.08</span></p>
+                            </div>
+                        </div>
+                        <div class="mining-stats">
+                            <p>Мощность: <span class="hashrate">0</span> H/s</p>
+                            <p>Доходность: $<span class="earnings">0.00</span>/час</p>
+                            <p>Намайнено: <span class="mined">0.00000000</span> DOGE</p>
+                        </div>
+                        <button class="mine-btn" data-crypto="dogecoin">
+                            <i class="fas fa-play"></i> Начать майнинг
+                        </button>
+                    </div>
 
-    function earn() {
-      coins += income;
-      updateDisplay();
-      saveProgress();
-    }
+                    <div class="crypto-card" data-crypto="litecoin">
+                        <div class="crypto-header">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNCQkJCQkIiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTAgMTJIMTRMMTIgMjJINCIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cjwvc3ZnPg==" alt="Litecoin">
+                            <div>
+                                <h3>Litecoin (LTC)</h3>
+                                <p class="price">$<span class="crypto-price">75</span></p>
+                            </div>
+                        </div>
+                        <div class="mining-stats">
+                            <p>Мощность: <span class="hashrate">0</span> H/s</p>
+                            <p>Доходность: $<span class="earnings">0.00</span>/час</p>
+                            <p>Намайнено: <span class="mined">0.00000000</span> LTC</p>
+                        </div>
+                        <button class="mine-btn" data-crypto="litecoin">
+                            <i class="fas fa-play"></i> Начать майнинг
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    function upgrade() {
-      if (coins >= upgradeCost) {
-        coins -= upgradeCost;
-        level++;
-        income = level;
-        upgradeCost = Math.floor(upgradeCost * 1.5);
-        updateDisplay();
-        saveProgress();
-      } else {
-        alert("Недостаточно монет!");
-      }
-    }
+            <!-- Вкладка оборудования -->
+            <div id="equipment" class="tab-content">
+                <div class="equipment-grid">
+                    <div class="equipment-card" data-equipment="gpu-basic">
+                        <h3><i class="fas fa-microchip"></i> GTX 1060</h3>
+                        <div class="equipment-stats">
+                            <p>Мощность: 20 H/s</p>
+                            <p>Потребление: 120W</p>
+                            <p>Цена: $300</p>
+                        </div>
+                        <button class="buy-btn" data-equipment="gpu-basic" data-price="300">
+                            Купить
+                        </button>
+                        <p class="owned">Куплено: <span class="count">0</span></p>
+                    </div>
 
-    function updateDisplay() {
-      document.getElementById('coins').textContent = coins;
-      document.getElementById('level').textContent = level;
-      document.getElementById('income').textContent = income;
-      document.getElementById('cost').textContent = upgradeCost;
-    }
+                    <div class="equipment-card" data-equipment="gpu-mid">
+                        <h3><i class="fas fa-microchip"></i> RTX 3070</h3>
+                        <div class="equipment-stats">
+                            <p>Мощность: 60 H/s</p>
+                            <p>Потребление: 220W</p>
+                            <p>Цена: $800</p>
+                        </div>
+                        <button class="buy-btn" data-equipment="gpu-mid" data-price="800">
+                            Купить
+                        </button>
+                        <p class="owned">Куплено: <span class="count">0</span></p>
+                    </div>
 
-    loadProgress();
-    updateDisplay();
-  </script>
+                    <div class="equipment-card" data-equipment="gpu-high">
+                        <h3><i class="fas fa-microchip"></i> RTX 4090</h3>
+                        <div class="equipment-stats">
+                            <p>Мощность: 120 H/s</p>
+                            <p>Потребление: 450W</p>
+                            <p>Цена: $1600</p>
+                        </div>
+                        <button class="buy-btn" data-equipment="gpu-high" data-price="1600">
+                            Купить
+                        </button>
+                        <p class="owned">Куплено: <span class="count">0</span></p>
+                    </div>
+
+                    <div class="equipment-card" data-equipment="asic-basic">
+                        <h3><i class="fas fa-server"></i> Antminer S9</h3>
+                        <div class="equipment-stats">
+                            <p>Мощность: 1000 H/s</p>
+                            <p>Потребление: 1350W</p>
+                            <p>Цена: $5000</p>
+                        </div>
+                        <button class="buy-btn" data-equipment="asic-basic" data-price="5000">
+                            Купить
+                        </button>
+                        <p class="owned">Куплено: <span class="count">0</span></p>
+                    </div>
+
+                    <div class="equipment-card" data-equipment="asic-pro">
+                        <h3><i class="fas fa-server"></i> Antminer S19 Pro</h3>
+                        <div class="equipment-stats">
+                            <p>Мощность: 5000 H/s</p>
+                            <p>Потребление: 3250W</p>
+                            <p>Цена: $15000</p>
+                        </div>
+                        <button class="buy-btn" data-equipment="asic-pro" data-price="15000">
+                            Купить
+                        </button>
+                        <p class="owned">Куплено: <span class="count">0</span></p>
+                    </div>
+
+                    <div class="equipment-card" data-equipment="farm">
+                        <h3><i class="fas fa-warehouse"></i> Майнинг Ферма</h3>
+                        <div class="equipment-stats">
+                            <p>Мощность: 25000 H/s</p>
+                            <p>Потребление: 15000W</p>
+                            <p>Цена: $100000</p>
+                        </div>
+                        <button class="buy-btn" data-equipment="farm" data-price="100000">
+                            Купить
+                        </button>
+                        <p class="owned">Куплено: <span class="count">0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка рынка -->
+            <div id="market" class="tab-content">
+                <div class="market-header">
+                    <h2><i class="fas fa-chart-line"></i> Криптовалютный рынок</h2>
+                    <p>Цены обновляются каждые 10 секунд</p>
+                </div>
+                <div class="market-grid">
+                    <div class="market-card" data-crypto="bitcoin">
+                        <div class="market-info">
+                            <h3>Bitcoin (BTC)</h3>
+                            <p class="current-price">$45000</p>
+                            <p class="price-change">+2.5%</p>
+                        </div>
+                        <canvas class="price-chart" width="200" height="100"></canvas>
+                    </div>
+                    <div class="market-card" data-crypto="ethereum">
+                        <div class="market-info">
+                            <h3>Ethereum (ETH)</h3>
+                            <p class="current-price">$3200</p>
+                            <p class="price-change">-1.2%</p>
+                        </div>
+                        <canvas class="price-chart" width="200" height="100"></canvas>
+                    </div>
+                    <div class="market-card" data-crypto="dogecoin">
+                        <div class="market-info">
+                            <h3>Dogecoin (DOGE)</h3>
+                            <p class="current-price">$0.08</p>
+                            <p class="price-change">+15.7%</p>
+                        </div>
+                        <canvas class="price-chart" width="200" height="100"></canvas>
+                    </div>
+                    <div class="market-card" data-crypto="litecoin">
+                        <div class="market-info">
+                            <h3>Litecoin (LTC)</h3>
+                            <p class="current-price">$75</p>
+                            <p class="price-change">+0.8%</p>
+                        </div>
+                        <canvas class="price-chart" width="200" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка вывода -->
+            <div id="withdraw" class="tab-content">
+                <div class="withdraw-container">
+                    <h2><i class="fas fa-money-bill-wave"></i> Вывод средств</h2>
+                    <div class="balance-info">
+                        <h3>Доступно для вывода: $<span id="withdrawBalance">0.00</span></h3>
+                    </div>
+                    
+                    <div class="crypto-balances">
+                        <div class="crypto-balance" data-crypto="bitcoin">
+                            <span>Bitcoin: <span class="amount">0.00000000</span> BTC</span>
+                            <button class="convert-btn" data-crypto="bitcoin">Конвертировать в $</button>
+                        </div>
+                        <div class="crypto-balance" data-crypto="ethereum">
+                            <span>Ethereum: <span class="amount">0.00000000</span> ETH</span>
+                            <button class="convert-btn" data-crypto="ethereum">Конвертировать в $</button>
+                        </div>
+                        <div class="crypto-balance" data-crypto="dogecoin">
+                            <span>Dogecoin: <span class="amount">0.00000000</span> DOGE</span>
+                            <button class="convert-btn" data-crypto="dogecoin">Конвертировать в $</button>
+                        </div>
+                        <div class="crypto-balance" data-crypto="litecoin">
+                            <span>Litecoin: <span class="amount">0.00000000</span> LTC</span>
+                            <button class="convert-btn" data-crypto="litecoin">Конвертировать в $</button>
+                        </div>
+                    </div>
+
+                    <div class="withdraw-form">
+                        <h3>Вывести на кошелек</h3>
+                        <input type="number" id="withdrawAmount" placeholder="Сумма для вывода" min="10" step="0.01">
+                        <input type="text" id="walletAddress" placeholder="Адрес кошелька (например: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa)">
+                        <button id="withdrawBtn" class="withdraw-btn">
+                            <i class="fas fa-paper-plane"></i> Вывести средства
+                        </button>
+                        <p class="withdraw-note">Минимальная сумма вывода: $10. Комиссия: 2%</p>
+                    </div>
+
+                    <div class="withdraw-history">
+                        <h3>История выводов</h3>
+                        <div id="withdrawHistoryList">
+                            <p class="no-history">История выводов пуста</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="notifications" id="notifications"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
