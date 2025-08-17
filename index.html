@@ -57,9 +57,33 @@
     let income = 1;
     let upgradeCost = 10;
 
+    // Загрузка прогресса
+    function loadProgress() {
+      const saved = localStorage.getItem('hamsterClicker');
+      if (saved) {
+        const data = JSON.parse(saved);
+        coins = data.coins || 0;
+        level = data.level || 1;
+        income = data.income || 1;
+        upgradeCost = data.upgradeCost || 10;
+      }
+    }
+
+    // Сохранение прогресса
+    function saveProgress() {
+      const data = {
+        coins,
+        level,
+        income,
+        upgradeCost
+      };
+      localStorage.setItem('hamsterClicker', JSON.stringify(data));
+    }
+
     function earn() {
       coins += income;
       updateDisplay();
+      saveProgress();
     }
 
     function upgrade() {
@@ -69,6 +93,7 @@
         income = level;
         upgradeCost = Math.floor(upgradeCost * 1.5);
         updateDisplay();
+        saveProgress();
       } else {
         alert("Недостаточно монет!");
       }
@@ -81,6 +106,7 @@
       document.getElementById('cost').textContent = upgradeCost;
     }
 
+    loadProgress();
     updateDisplay();
   </script>
 </body>
