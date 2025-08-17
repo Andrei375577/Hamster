@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Hamster Clicker</title>
+  <style>
+    body {
+      background: #1e1e1e;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .counter {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      margin: 10px;
+      background: #ff9800;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #fff;
+    }
+    button:hover {
+      background: #ffa726;
+    }
+    .upgrade {
+      background: #333;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐹 Hamster Clicker</h1>
+  <div class="counter">Монет: <span id="coins">0</span></div>
+  <button onclick="earn()">Заработать 💸</button>
+
+  <div class="upgrade">
+    <p>Уровень апгрейда: <span id="level">1</span></p>
+    <p>Доход за клик: <span id="income">1</span></p>
+    <button onclick="upgrade()">Апгрейд (стоимость: <span id="cost">10</span>)</button>
+  </div>
+
+  <script>
+    let coins = 0;
+    let level = 1;
+    let income = 1;
+    let upgradeCost = 10;
+
+    function earn() {
+      coins += income;
+      updateDisplay();
+    }
+
+    function upgrade() {
+      if (coins >= upgradeCost) {
+        coins -= upgradeCost;
+        level++;
+        income = level;
+        upgradeCost = Math.floor(upgradeCost * 1.5);
+        updateDisplay();
+      } else {
+        alert("Недостаточно монет!");
+      }
+    }
+
+    function updateDisplay() {
+      document.getElementById('coins').textContent = coins;
+      document.getElementById('level').textContent = level;
+      document.getElementById('income').textContent = income;
+      document.getElementById('cost').textContent = upgradeCost;
+    }
+
+    updateDisplay();
+  </script>
+</body>
+</html>
